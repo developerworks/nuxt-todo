@@ -7,7 +7,7 @@
     <ul class="users">
       <li v-for="user in users" :key="user.id" class="user">
         <nuxt-link :to="{ name: 'id', params: { id: user.id }}">
-          {{ user.firstName }}
+          {{ user.firstName }} {{user.lastName}}
         </nuxt-link>
       </li>
     </ul>
@@ -17,15 +17,6 @@
 <script>
 import gql from 'graphql-tag';
 
-const usersQuery = gql`
-  query users {
-    users {
-      firstName
-      id
-    }
-  }
-`;
-
 export default {
   data: () => ({
     users: [],
@@ -33,8 +24,17 @@ export default {
   }),
   apollo: {
     users: {
-      query: usersQuery,
-      loadingKey: 'loading'
+      query: gql`
+        query users {
+          users {
+            firstName
+            id
+            lastName
+          }
+        }
+      `,
+      loadingKey: 'loading',
+      prefetch: true
     }
   },
   head () {

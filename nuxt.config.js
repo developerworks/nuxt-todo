@@ -16,7 +16,7 @@ module.exports = {
   /*
   ** Global CSS
   */
-  css: ['~/assets/css/main.css'],
+  css: ['bulma', '~/assets/css/main.css'],
   /*
   ** Modules
   */

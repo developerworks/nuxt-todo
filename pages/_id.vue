@@ -4,8 +4,8 @@
     <h1 class="title">
       User
     </h1>
-    <h2 class="info">
-      {{user}}
+    <h2 class="info" v-if="user">
+      {{user.firstName}} {{user.lastName}}
     </h2>
     <nuxt-link class="button" to="/">
       Users
@@ -22,13 +22,13 @@ export default {
     return {
       user: null,
       loading: 0,
-      routeParam: this.$route.params.id
+      id: this.$route.params.id
     };
   },
   apollo: {
     user: {
       query: gql`
-        query user($id: Int!) {
+        query user($id: ID!) {
           user(id: $id) {
             firstName
             lastName
@@ -36,16 +36,21 @@ export default {
         }
       `,
       loadingKey: 'loading',
+      prefetch ({ route }) {
+        return {
+          id: route.params.id
+        };
+      },
       variables () {
         return {
-          id: this.routeParam
+          id: this.id
         };
       }
     }
   },
   head () {
     return {
-      title: 'Users'
+      title: `Users`
     };
   }
 };

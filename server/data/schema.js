@@ -15,7 +15,7 @@ type Todo {
   user: User
 }
 type Query {
-  user(id: Int!): User
+  user(id: ID!): User
   users: [User]
   todos: [Todo]
 }
