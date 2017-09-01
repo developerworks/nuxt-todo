@@ -39,4 +39,4 @@ db.sync({ force: true }).then(() => {
 const User = db.models.user;
 const Todo = db.models.todo;
 
-export { User, Todo, db };
+export { User, Todo };

@@ -5,9 +5,9 @@
       USERS
     </h1>
     <ul class="users">
-      <li v-for="(user, index) in users" :key="index" class="user">
-        <nuxt-link :to="{ name: 'id', params: { id: index }}">
-          {{ user.name }}
+      <li v-for="user in users" :key="user.id" class="user">
+        <nuxt-link :to="{ name: 'id', params: { id: user.id }}">
+          {{ user.firstName }}
         </nuxt-link>
       </li>
     </ul>
@@ -15,12 +15,27 @@
 </template>
 
 <script>
-import axios from '~/plugins/axios';
+import gql from 'graphql-tag';
+
+const usersQuery = gql`
+  query users {
+    users {
+      firstName
+      id
+    }
+  }
+`;
 
 export default {
-  async asyncData () {
-    let { data } = await axios.get('/api/users');
-    return { users: data };
+  data: () => ({
+    users: [],
+    loading: 0
+  }),
+  apollo: {
+    users: {
+      query: usersQuery,
+      loadingKey: 'loading'
+    }
   },
   head () {
     return {

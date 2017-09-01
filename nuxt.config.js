@@ -18,6 +18,15 @@ module.exports = {
   */
   css: ['~/assets/css/main.css'],
   /*
+  ** Modules
+  */
+  modules: ['@nuxtjs/apollo'],
+  apollo: {
+    networkInterfaces: {
+      default: '~/apollo/network-interfaces/default.js'
+    }
+  },
+  /*
   ** Add axios globally
   */
   build: {
@@ -32,8 +41,8 @@ module.exports = {
           test: /\.(js|vue)$/,
           loader: 'eslint-loader',
           exclude: /(node_modules)/
-        })
+        });
       }
     }
   }
-}
+};

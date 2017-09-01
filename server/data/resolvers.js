@@ -1,4 +1,4 @@
-import { User } from '../db';
+import { User, Todo } from '../db';
 
 const resolvers = {
   Query: {
@@ -7,16 +7,19 @@ const resolvers = {
     },
     users (_, args) {
       return User.findAll();
+    },
+    todos (_, args) {
+      return Todo.findAll();
     }
   },
   User: {
     todos (user) {
-      return user.getPosts();
+      return user.getTodos();
     }
   },
   Todo: {
     user (todo) {
-      return todo.getAuthor();
+      return todo.getUser();
     }
   }
 };

@@ -15,9 +15,10 @@ type Todo {
   user: User
 }
 type Query {
-  user(firstName: String, lastName: String): User
+  user(id: Int!): User
   users: [User]
- }
+  todos: [Todo]
+}
 `;
 
 export default makeExecutableSchema({ typeDefs, resolvers });

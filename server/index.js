@@ -3,17 +3,13 @@ import { Nuxt, Builder } from 'nuxt';
 import bodyParser from 'body-parser';
 import { graphqlExpress, graphiqlExpress } from 'graphql-server-express';
 
-import api from './api';
-import schema from './schema';
+import schema from './data/schema';
 
 const app = express();
 const host = process.env.HOST || '127.0.0.1';
 const port = process.env.PORT || 3000;
 
 app.set('port', port);
-
-// Import API Routes
-app.use('/api', api);
 
 app.use(
   '/graphiql',

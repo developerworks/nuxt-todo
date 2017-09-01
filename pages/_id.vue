@@ -5,7 +5,7 @@
       User
     </h1>
     <h2 class="info">
-      {{ user.name }}
+      {{user}}
     </h2>
     <nuxt-link class="button" to="/">
       Users
@@ -14,22 +14,38 @@
 </template>
 
 <script>
-import axios from '~/plugins/axios';
+import gql from 'graphql-tag';
 
 export default {
   name: 'id',
-  asyncData ({ params, error }) {
-    return axios.get('/api/users/' + params.id)
-      .then((res) => {
-        return { user: res.data };
-      })
-      .catch((e) => {
-        error({ statusCode: 404, message: 'User not found' });
-      });
+  data () {
+    return {
+      user: null,
+      loading: 0,
+      routeParam: this.$route.params.id
+    };
+  },
+  apollo: {
+    user: {
+      query: gql`
+        query user($id: Int!) {
+          user(id: $id) {
+            firstName
+            lastName
+          }
+        }
+      `,
+      loadingKey: 'loading',
+      variables () {
+        return {
+          id: this.routeParam
+        };
+      }
+    }
   },
   head () {
     return {
-      title: `User: ${this.user.name}`
+      title: 'Users'
     };
   }
 };
