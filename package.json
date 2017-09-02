@@ -15,7 +15,6 @@
     "@nuxtjs/apollo": "^2.0.0",
     "axios": "^0.16.2",
     "body-parser": "^1.17.2",
-    "bulma": "^0.5.1",
     "casual": "^1.5.17",
     "cross-env": "^5.0.1",
     "express": "^4.15.4",
@@ -24,6 +23,7 @@
     "graphql-tools": "^1.2.2",
     "lodash": "^4.17.4",
     "mysql2": "^1.4.2",
+    "normalize.css": "^7.0.0",
     "nuxt": "^1.0.0-rc8",
     "sequelize": "^4.8.0",
     "source-map-support": "^0.4.15"

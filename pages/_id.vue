@@ -20,7 +20,10 @@ export default {
   name: 'id',
   data () {
     return {
-      user: null,
+      user: {
+        firstName: '',
+        lastName: ''
+      },
       loading: 0,
       id: this.$route.params.id
     };
@@ -50,7 +53,7 @@ export default {
   },
   head () {
     return {
-      title: `Users`
+      title: `${this.user.firstName} ${this.user.lastName} | Users`
     };
   }
 };
