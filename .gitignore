@@ -12,3 +12,6 @@ dist
 
 # Backpack build
 build
+
+# Server config
+server/config/index.js

@@ -2,9 +2,10 @@ import Sequelize from 'sequelize';
 import casual from 'casual';
 import _ from 'lodash';
 import path from 'path';
+import config from './config';
 
-const db = new Sequelize('nuxt_todo', 'root', '', {
-  host: 'localhost',
+const db = new Sequelize(config.DB_DATABASE, config.DB_USER, config.DB_PASS, {
+  host: config.DB_HOST,
   dialect: 'mysql',
 
   pool: {

@@ -1,9 +1,6 @@
 html, body
 {
-  background-color: #fff;
-  color: $primary-color;
-  letter-spacing: 0.5px;
+  background-color: $backgroundColor;
+  color: $primaryTextColor;
   font-family: "Source Sans Pro", Arial, sans-serif;
-  height: 100vh;
-  margin: 0;
 }

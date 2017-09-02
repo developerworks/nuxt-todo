@@ -1,35 +1,31 @@
 <template>
-  <section class="container">
-    <img src="~assets/img/logo.png" alt="Nuxt.js Logo" class="logo" />
-    <h1 class="title">
-      USERS
-    </h1>
-    <ul class="users">
-      <li v-for="user in users" :key="user.id" class="user">
-        <nuxt-link :to="{ name: 'id', params: { id: user.id }}">
-          {{ user.firstName }} {{user.lastName}}
-        </nuxt-link>
-      </li>
-    </ul>
-  </section>
+  <div class="container">
+    <Todos :todos="todos" />
+  </div>
 </template>
 
 <script>
 import gql from 'graphql-tag';
+import Todos from '~/components/Todos.vue';
 
 export default {
-  data: () => ({
-    users: [],
-    loading: 0
-  }),
+  data () {
+    return {
+      todos: [],
+      loading: 0
+    };
+  },
+  components: {
+    Todos
+  },
   apollo: {
-    users: {
+    todos: {
       query: gql`
-        query users {
-          users {
-            firstName
+        query todos {
+          todos {
             id
-            lastName
+            title
+            text
           }
         }
       `,
@@ -39,25 +35,8 @@ export default {
   },
   head () {
     return {
-      title: 'Users'
+      title: 'Todos list'
     };
   }
 };
 </script>
-
-<style scoped>
-.title
-{
-  margin: 30px 0;
-}
-.users
-{
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.user
-{
-  margin: 10px 0;
-}
-</style>
