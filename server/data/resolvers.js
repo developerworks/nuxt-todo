@@ -1,18 +1,16 @@
-import { User, Todo } from '../db';
-
 const resolvers = {
   Query: {
-    user (_, args) {
-      return User.find({ where: args });
+    user: async (_, args, {mysql: {Users}}) => {
+      return Users.find({ where: args });
     },
-    users (_, args) {
-      return User.findAll();
+    users: async (_, args, {mysql: {Users}}) => {
+      return Users.findAll({ where: args });
     },
-    todos (_, args) {
-      return Todo.findAll();
+    todos: async (_, args, {mysql: {Todos}}) => {
+      return Todos.findAll({ where: args });
     }
   },
-  User: {
+  /* User: {
     todos (user) {
       return user.getTodos();
     }
@@ -20,6 +18,12 @@ const resolvers = {
   Todo: {
     user (todo) {
       return todo.getUser();
+    }
+  }, */
+  Mutation: {
+    createTodo: async (root, data, {mysql: {Todos}}) => {
+      const response = await Todos.create(data); // 3
+      return response;
     }
   }
 };

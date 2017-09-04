@@ -1,40 +1,44 @@
 import express from 'express';
 import { Nuxt, Builder } from 'nuxt';
 import bodyParser from 'body-parser';
-import { graphqlExpress, graphiqlExpress } from 'graphql-server-express';
-
+import {graphiqlExpress, graphqlExpress} from 'apollo-server-express';
+import config from './config';
 import schema from './data/schema';
+import connectMysql from './data/connectors/mysql-connector';
 
-const app = express();
-const host = process.env.HOST || '127.0.0.1';
-const port = process.env.PORT || 3000;
+const start = async () => {
+  // 3
+  const mysql = await connectMysql();
+  const app = express();
+  app.set('port', config.PORT);
 
-app.set('port', port);
-
-app.use(
-  '/graphiql',
-  graphiqlExpress({
+  app.use('/graphql', bodyParser.json(), graphqlExpress({
+    context: {mysql}, // 4
+    schema
+  }));
+  app.use('/graphiql', graphiqlExpress({
     endpointURL: '/graphql'
-  })
-);
-app.use('/graphql', bodyParser.json(), graphqlExpress({ schema: schema }));
+  }));
 
-// Import and Set Nuxt.js options
-let config = require('../nuxt.config.js');
-config.dev = !(process.env.NODE_ENV === 'production');
+  // Import and Set Nuxt.js options
+  let nuxtConfig = require('../nuxt.config.js');
+  nuxtConfig.dev = !(process.env.NODE_ENV === 'production');
 
-// Init Nuxt.js
-const nuxt = new Nuxt(config);
+  // Init Nuxt.js
+  const nuxt = new Nuxt(nuxtConfig);
 
-// Build only in dev mode
-if (config.dev) {
-  const builder = new Builder(nuxt);
-  builder.build();
-}
+  // Build only in dev mode
+  if (nuxtConfig.dev) {
+    const builder = new Builder(nuxt);
+    builder.build();
+  }
 
-// Give nuxt middleware to express
-app.use(nuxt.render);
+  // Give nuxt middleware to express
+  app.use(nuxt.render);
 
-// Listen the server
-app.listen(port, host);
-console.log('Server listening on ' + host + ':' + port); // eslint-disable-line no-console
+  // Listen the server
+  app.listen(config.PORT, config.HOST);
+  console.log(`Server listening on ${config.HOST}:${config.PORT}`); // eslint-disable-line no-console
+};
+
+start();
