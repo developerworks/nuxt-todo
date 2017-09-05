@@ -10,20 +10,24 @@ const resolvers = {
       return Todos.findAll({ where: args });
     }
   },
-  /* User: {
-    todos (user) {
+  User: {
+    todos: async (user) => {
       return user.getTodos();
     }
   },
   Todo: {
-    user (todo) {
+    user: async (todo) => {
       return todo.getUser();
     }
-  }, */
+  },
   Mutation: {
     createTodo: async (root, data, {mysql: {Todos}}) => {
-      const response = await Todos.create(data); // 3
-      return response;
+      const newTodo = {
+        text: data.input.text,
+        userId: data.input.user
+      };
+      const response = await Todos.create(newTodo);
+      return {todo: response};
     }
   }
 };
