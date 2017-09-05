@@ -4,16 +4,15 @@ import bodyParser from 'body-parser';
 import {graphiqlExpress, graphqlExpress} from 'apollo-server-express';
 import config from './config';
 import schema from './data/schema';
-import connectMysql from './data/connectors/mysql-connector';
+import connectMongo from './data/connectors/mongo-connector';
 
 const start = async () => {
-  // 3
-  const mysql = await connectMysql();
+  const mongo = await connectMongo();
   const app = express();
   app.set('port', config.PORT);
 
   app.use('/graphql', bodyParser.json(), graphqlExpress({
-    context: {mysql}, // 4
+    context: {mongo},
     schema
   }));
   app.use('/graphiql', graphiqlExpress({

@@ -22,11 +22,11 @@
     "graphql": "0.10.5",
     "graphql-tools": "^1.2.2",
     "lodash": "^4.17.4",
-    "mysql2": "^1.4.2",
+    "mongoose": "^4.11.10",
     "normalize.css": "^7.0.0",
     "nuxt": "^1.0.0-rc8",
-    "sequelize": "^4.8.0",
-    "source-map-support": "^0.4.15"
+    "source-map-support": "^0.4.15",
+    "validator": "^8.1.0"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
