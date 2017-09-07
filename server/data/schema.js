@@ -14,6 +14,7 @@ type Todo {
   completed: Boolean!
   user: User!
 }
+
 type Query {
   user(id: Int!): User
   users: [User]!
@@ -21,13 +22,31 @@ type Query {
 }
 type Mutation {
   createTodo (input: CreateTodoInput!): CreateTodoPayload
+  createUser(input: CreateUserInput!): CreateUserPayload
+  signinUser(input: SigninInput!): SigninPayload!
 }
+
 input CreateTodoInput {
   text: String!
-  user: Int!
 }
 type CreateTodoPayload {
   todo: Todo
+}
+input CreateUserInput {
+  name: String!
+  email: String!
+  password: String!
+}
+type CreateUserPayload {
+  user: User
+}
+input SigninInput {
+  email: String!
+  password: String!
+}
+type SigninPayload {
+  token: String
+  user: User
 }
 `;
 

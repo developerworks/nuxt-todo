@@ -8,16 +8,28 @@ function regenerateHash (user, options) {
 
 module.exports = (sequelize, DataTypes) => {
   const userModel = sequelize.define('user', {
-    name: DataTypes.STRING,
-    email: DataTypes.STRING,
-    password: DataTypes.STRING
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        isEmail: true
+      }
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false
+    }
   });
 
   userModel.prototype.generateHash = function (password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
   };
   userModel.prototype.validPassword = function (password) {
-    return bcrypt.compareSync(password, this.local.password);
+    return bcrypt.compareSync(password, this.password);
   };
 
   userModel.beforeCreate(regenerateHash);

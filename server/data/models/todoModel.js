@@ -1,6 +1,12 @@
 module.exports = (sequelize, DataTypes) => {
   return sequelize.define('todo', {
-    text: DataTypes.TEXT,
-    completed: DataTypes.BOOLEAN
+    text: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    completed: {
+      type: DataTypes.BOOLEAN,
+      default: false
+    }
   });
 };
