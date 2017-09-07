@@ -26,7 +26,7 @@ export default async () => {
     _.times(10, () => {
       return userModel.create({
         name: `${casual.first_name} ${casual.last_name}`,
-        email: 'test@test.com',
+        email: casual.email,
         password: 'secret'
       }).then((user) => {
         return user.createTodo({

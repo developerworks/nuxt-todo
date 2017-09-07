@@ -5,23 +5,23 @@ const typeDefs = `
 type User {
   id: ID!
   name: String!
+  email: String!
   todos: [Todo]
 }
 type Todo {
   id: ID!
-  text: String
+  text: String!
+  completed: Boolean!
   user: User!
 }
-
 type Query {
-  user(id: ID!): User
+  user(id: Int!): User
   users: [User]!
   todos: [Todo]!
 }
 type Mutation {
   createTodo (input: CreateTodoInput!): CreateTodoPayload
 }
-
 input CreateTodoInput {
   text: String!
   user: Int!

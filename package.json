@@ -15,6 +15,7 @@
     "@nuxtjs/apollo": "^2.0.0",
     "apollo-server-express": "^1.1.2",
     "axios": "^0.16.2",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.17.2",
     "casual": "^1.5.17",
     "cross-env": "^5.0.1",
@@ -22,11 +23,11 @@
     "graphql": "0.10.5",
     "graphql-tools": "^1.2.2",
     "lodash": "^4.17.4",
-    "mongoose": "^4.11.10",
+    "mysql2": "^1.4.2",
     "normalize.css": "^7.0.0",
     "nuxt": "^1.0.0-rc8",
-    "source-map-support": "^0.4.15",
-    "validator": "^8.1.0"
+    "sequelize": "^4.8.0",
+    "source-map-support": "^0.4.15"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",

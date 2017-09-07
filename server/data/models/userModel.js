@@ -1,25 +1,27 @@
-import mongoose from 'mongoose';
-import validator from 'validator';
+const bcrypt = require('bcryptjs');
 
-var UserSchema = new mongoose.Schema({
-  email: {
-    type: String,
-    required: true,
-    trim: true,
-    minlength: 1,
-    unique: true,
-    validate: {
-      validator: validator.isEmail,
-      message: '{VALUE} is not a valid email'
-    }
-  },
-  password: {
-    type: String,
-    require: true,
-    minlength: 6
+function regenerateHash (user, options) {
+  if (user.changed('password')) {
+    user.password = user.generateHash(user.password);
   }
-});
+};
 
-const User = mongoose.model('User', UserSchema);
+module.exports = (sequelize, DataTypes) => {
+  const userModel = sequelize.define('user', {
+    name: DataTypes.STRING,
+    email: DataTypes.STRING,
+    password: DataTypes.STRING
+  });
 
-module.exports = {User};
+  userModel.prototype.generateHash = function (password) {
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
+  };
+  userModel.prototype.validPassword = function (password) {
+    return bcrypt.compareSync(password, this.local.password);
+  };
+
+  userModel.beforeCreate(regenerateHash);
+  userModel.beforeUpdate(regenerateHash);
+
+  return userModel;
+};
