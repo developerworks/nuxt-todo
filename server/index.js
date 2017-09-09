@@ -5,7 +5,7 @@ import { graphiqlExpress, graphqlExpress } from 'apollo-server-express';
 import config from './config';
 import schema from './data/schema';
 import connectMysql from './data/connectors/mysql-connector';
-import {authenticate} from './authentication';
+import {authenticate} from './utils/authentication';
 
 const start = async () => {
   const mysql = await connectMysql();
@@ -22,8 +22,7 @@ const start = async () => {
 
   app.use('/graphql', bodyParser.json(), graphqlExpress(buildOptions));
   app.use('/graphiql', graphiqlExpress({
-    endpointURL: '/graphql',
-    passHeader: `'authorization': 'bearer token-fojtik.v@gmail.com'`
+    endpointURL: '/graphql'
   }));
 
   let nuxtConfig = require('../nuxt.config.js');

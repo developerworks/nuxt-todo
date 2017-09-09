@@ -1,3 +1,5 @@
+import {generateToken} from '../utils/authentication';
+
 const resolvers = {
   Query: {
     user: async (_, args, {mysql: {Users}}) => {
@@ -44,7 +46,7 @@ const resolvers = {
 
       if (user.validPassword(data.input.password)) {
         const response = {
-          token: `token-${user.dataValues.email}`,
+          token: `token-${generateToken(user)}`,
           user: user
         };
         return response;
