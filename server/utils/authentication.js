@@ -1,19 +1,23 @@
 import jwt from 'jsonwebtoken';
 import _ from 'lodash';
-import config from '../config';
+import path from 'path';
+import dotenv from 'dotenv';
+dotenv.load({
+  path: path.resolve('./server/.env')
+});
 
 const HEADER_REGEX = /bearer token-(.*)$/;
 
 const generateToken = (user) => {
   return jwt.sign({
     user: _.pick(user, ['id', 'email'])
-  }, config.SECRET, {expiresIn: '1y'});
+  }, process.env.JWT_SECRET, {expiresIn: '1y'});
 };
 
 const verifyToken = async (token) => {
   if (token) {
     try {
-      const { user } = await jwt.verify(token, config.SECRET);
+      const { user } = await jwt.verify(token, process.env.JWT_SECRET);
       return user;
     } catch (err) {
       console.log(err);

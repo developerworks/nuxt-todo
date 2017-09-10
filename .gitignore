@@ -14,4 +14,4 @@ dist
 build
 
 # Server config
-server/config/index.js
+server/.env

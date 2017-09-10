@@ -1,12 +1,15 @@
 import Sequelize from 'sequelize';
 import path from 'path';
-import config from '../../config';
 import casual from 'casual';
 import _ from 'lodash';
+import dotenv from 'dotenv';
+dotenv.load({
+  path: path.resolve('./server/.env')
+});
 
 export default async () => {
-  const db = await new Sequelize(config.DB_DATABASE, config.DB_USER, config.DB_PASS, {
-    host: config.DB_HOST,
+  const db = await new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
+    host: process.env.DB_HOST,
     dialect: 'mysql',
 
     pool: {
