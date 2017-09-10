@@ -1,10 +1,4 @@
-const bcrypt = require('bcryptjs');
-
-function regenerateHash (user, options) {
-  if (user.changed('password')) {
-    user.password = user.generateHash(user.password);
-  }
-};
+const {regenerateHash, generateHash, validPassword} = require('../../utils/password');
 
 module.exports = (sequelize, DataTypes) => {
   const userModel = sequelize.define('user', {
@@ -26,12 +20,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   });
 
-  userModel.prototype.generateHash = function (password) {
-    return bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
-  };
-  userModel.prototype.validPassword = function (password) {
-    return bcrypt.compareSync(password, this.password);
-  };
+  userModel.prototype.generateHash = generateHash;
+  userModel.prototype.validPassword = validPassword;
 
   userModel.beforeCreate(regenerateHash);
   userModel.beforeUpdate(regenerateHash);

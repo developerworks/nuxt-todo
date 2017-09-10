@@ -3,23 +3,28 @@ import {generateToken} from '../utils/authentication';
 const resolvers = {
   Query: {
     user: async (_, args, {mysql: {Users}}) => {
-      return Users.find({ where: args });
+      const user = await Users.findOne({ where: args });
+      return user;
     },
     users: async (_, args, {mysql: {Users}}) => {
-      return Users.findAll({ where: args });
+      const users = await Users.findAll({ where: args });
+      return users;
     },
     todos: async (_, args, {mysql: {Todos}}) => {
-      return Todos.findAll({ where: args });
+      const todos = await Todos.findAll({ where: args });
+      return todos;
     }
   },
   User: {
     todos: async (user) => {
-      return user.getTodos();
+      const todos = await user.getTodos();
+      return todos;
     }
   },
   Todo: {
-    user: async (todo) => {
-      return todo.getUser();
+    user: async ({userId}, data, {dataloaders: {userLoader}}) => {
+      const user = await userLoader.load(userId);
+      return user;
     }
   },
   Mutation: {
@@ -46,7 +51,7 @@ const resolvers = {
 
       if (user.validPassword(data.input.password)) {
         const response = {
-          token: `token-${generateToken(user)}`,
+          token: generateToken(user),
           user: user
         };
         return response;

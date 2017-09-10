@@ -6,6 +6,7 @@ import config from './config';
 import schema from './data/schema';
 import connectMysql from './data/connectors/mysql-connector';
 import {authenticate} from './utils/authentication';
+import buildDataloaders from './data/dataloaders';
 
 const start = async () => {
   const mysql = await connectMysql();
@@ -15,7 +16,7 @@ const start = async () => {
   const buildOptions = async (req, res) => {
     const user = await authenticate(req, mysql.Users);
     return {
-      context: {mysql, user},
+      context: {mysql, user, dataloaders: buildDataloaders(mysql)},
       schema
     };
   };
