@@ -10,7 +10,7 @@ const HEADER_REGEX = /bearer token-(.*)$/;
 
 const generateToken = (user) => {
   return jwt.sign({
-    user: _.pick(user, ['id', 'email'])
+    user: _.pick(user, ['id'])
   }, process.env.JWT_SECRET, {expiresIn: '1y'});
 };
 

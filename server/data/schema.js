@@ -16,14 +16,12 @@ type Todo {
 }
 
 type Query {
-  user(id: Int!): User
-  users: [User]!
-  todos: [Todo]!
+  me: User
 }
 type Mutation {
   createTodo (input: CreateTodoInput!): CreateTodoPayload
-  createUser(input: CreateUserInput!): CreateUserPayload
-  signinUser(input: SigninInput!): SigninPayload!
+  createUser (input: CreateUserInput!): CreateUserPayload
+  signinUser (input: SigninInput!): SigninPayload!
 }
 
 input CreateTodoInput {

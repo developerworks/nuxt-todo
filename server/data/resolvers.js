@@ -2,17 +2,15 @@ import {generateToken} from '../utils/authentication';
 
 const resolvers = {
   Query: {
-    user: async (_, args, {mysql: {Users}}) => {
-      const user = await Users.findOne({ where: args });
-      return user;
-    },
-    users: async (_, args, {mysql: {Users}}) => {
-      const users = await Users.findAll({ where: args });
-      return users;
-    },
-    todos: async (_, args, {mysql: {Todos}}) => {
-      const todos = await Todos.findAll({ where: args });
-      return todos;
+    me: async (_, args, {mysql: {Users}, user}) => {
+      if (user) {
+        const response = await Users.findOne({ where: {
+          id: user.id
+        } });
+        return response;
+      }
+
+      throw new Error('Permissions denied');
     }
   },
   User: {
@@ -29,12 +27,16 @@ const resolvers = {
   },
   Mutation: {
     createTodo: async (root, data, {mysql: {Todos}, user}) => {
-      const newTodo = {
-        text: data.input.text,
-        userId: user.id
-      };
-      const response = await Todos.create(newTodo);
-      return {todo: response};
+      if (user) {
+        const newTodo = {
+          text: data.input.text,
+          userId: user.id
+        };
+        const response = await Todos.create(newTodo);
+        return {todo: response};
+      }
+
+      throw new Error('Permissions denied');
     },
     createUser: async (root, data, {mysql: {Users}}) => {
       const newUser = {
